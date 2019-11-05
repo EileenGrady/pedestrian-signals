@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/EileenGrady/MAP675-mod02-part02/issues"
   },
-  "homepage": "https://github.com/EileenGrady/MAP675-mod02-part02#readme"
+  "homepage": "https://github.com/EileenGrady/MAP675-mod02-part02#readme",
+  "dependencies": {
+    "point-in-polygon": "^1.0.1"
+  }
 }
