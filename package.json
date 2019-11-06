@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/EileenGrady/MAP675-mod02-part02#readme",
   "dependencies": {
+    "mapshaper": "^0.4.140",
     "point-in-polygon": "^1.0.1"
   }
 }

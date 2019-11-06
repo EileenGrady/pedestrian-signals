@@ -26,20 +26,20 @@ function countPoints(districts, signals) {
         var polygon = feature.geometry.coordinates;
      
         // loop through each pedestrian signal
-        // defining the x and y values that make up each point
         signals.features.forEach((row) => {
             var x = row.properties.evnt_lon;
-            var y = row.properties.evnt_lat;
             
             // ran into null values, so this skips over any null values
-            // then test to see if the signal is inside the district polygon
+            // then define point as the signal point geometry
+            // test to see if the signal is inside the district polygon
             // test returns boolean true or false
             if (x === null) {
                 // console.log('skip')
             } else {
-                var result = inside([x,y], polygon);
+                var point = row.geometry.coordinates;
+                var result = inside(point, polygon);
             }
-            // if test result is true, the increment count one
+            // if test result is true, then increment count one
             if (result === true) {
                 count++
             }

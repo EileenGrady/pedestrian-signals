@@ -1,21 +1,29 @@
 "use strict"
 
 var fs = require('fs');
+var mapshaper = require('mapshaper');
 
 // read original ped signal geojson in
 fs.readFile(__dirname + "/../project-files/ped-signal-ada-compliance.geojson", "utf8", (err, geojson) => {
     if (err) throw err;
 
-    // parse results so we can run filterFields function
-    var newGeoJson = JSON.parse(geojson)
+    var commands = '-o precision=.0001 format=geojson';
 
-    // run filterFields function
-    var outGeoJSON = filterFields(newGeoJson);
+    mapshaper.applyCommands(commands, geojson, (err, geojson) => {
+        if (err) throw err;
 
-    // write new json to data directory
-    fs.writeFile(__dirname + " /../data/ped-signals-filtered.json", JSON.stringify(outGeoJSON), "utf8", (err) => {
+        // parse results so we can run filterFields function
+        var newGeoJson = JSON.parse(geojson)
+
+        // run filterFields function
+        var outGeoJSON = filterFields(newGeoJson);
+
+        // write new json to data directory
+        fs.writeFile(__dirname + " /../data/ped-signals-filtered.json", JSON.stringify(outGeoJSON), "utf8", (err) => {
         if (err) throw err;
         console.log('done writing file');
+        })
+
     })
 
 })
