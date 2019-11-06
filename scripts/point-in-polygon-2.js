@@ -1,7 +1,7 @@
 "use strict"
 
 var fs = require('fs');
-var inside = require('point-in-geopolygon');
+var inside = require('point-in-polygon-hao');
 
 fs.readFile(__dirname + "/../data/council-districts.json", "utf8", (err, geojson) => {
     
@@ -13,7 +13,15 @@ fs.readFile(__dirname + "/../data/council-districts.json", "utf8", (err, geojson
       
         if (err) throw err;
         var signals = JSON.parse(geojson2)
-        countPoints(districts, signals)
+        var outGeoJSON = countPoints(districts, signals)
+
+        fs.writeFile(__dirname + '/../data/council-districts-counts.json', JSON.stringify(outGeoJSON), 'utf8', function (err) {
+
+            if (err) throw err;
+
+            // confirm results
+            console.log('council-districts-counts.json written');
+          })
     })
 })
 
@@ -27,18 +35,8 @@ function countPoints(districts, signals) {
      
         // loop through each pedestrian signal
         signals.features.forEach((row) => {
-            var y = row.properties.evnt_lat;
-            
-            // ran into null values, so this skips over any null values
-            // then define point as the signal point geometry
-            // test to see if the signal is inside the district polygon
-            // test returns boolean true or false
-            if (y === null) {
-                // console.log('skip')
-            } else {
-                var point = row.geometry.coordinates;
-                var result = inside.polygon(polygon, point);
-            }
+            var point = row.geometry.coordinates;
+            var result = inside(point, polygon);
             // if test result is true, then increment count one
             if (result === true) {
                 count++
@@ -46,6 +44,7 @@ function countPoints(districts, signals) {
         })
 
         feature.properties.count = count;
-        console.log(feature.properties.count)
     })
+
+    return districts
 }

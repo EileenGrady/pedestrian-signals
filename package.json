@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/EileenGrady/MAP675-mod02-part02#readme",
   "dependencies": {
+    "leaflet-choropleth": "^1.1.4",
     "mapshaper": "^0.4.140",
     "point-in-geopolygon": "^1.0.1",
     "point-in-polygon": "^1.0.1",

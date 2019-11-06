@@ -78,13 +78,13 @@
     }).addTo(map);
 
     // use D3 fetch to request data with async requests
-    const serviceDistricts = d3.json('data/service-districts-simplify.json');
+    // const serviceDistricts = d3.json('data/service-districts-simplify.json');
     const councilDistricts = d3.json('data/council-districts.json');
-    const colorsData = d3.json('data/prism-colors.json');
+    const colorsData = d3.json('data/OrYel-colors.json');
     const signalData = d3.json('data/ped-signals-filtered.json');
 
     // use Promise to wait until data is all loaded
-    Promise.all([serviceDistricts, councilDistricts, colorsData, signalData]).then(dataReady);
+    Promise.all([councilDistricts, colorsData, signalData]).then(dataReady);
 
 
     function dataReady(data) {
@@ -94,10 +94,9 @@
       console.log(data);
 
       // pull out separate data arrays and assign to variables
-      const service = data[0];
-      const councils = data[1];
-      const colors = data[2];
-      const signals = data[3];
+      const districts = data[0];
+      const colors = data[1];
+      const signals = data[2];
 
     //   // store a reference to the HTML list
     //   const legendList = $('#legend-list');
@@ -108,10 +107,10 @@
     //     legendList.append('<li class="legend-item" id="district-' + i + '"><a style="color:' + colors.Vivid[10][i -1] + '" href="#">District ' + i + ' (<span></span>)</a></li>');
     //   }
 
-      var serviceLayerGroup = L.geoJson(service, {
+      var districtLayerGroup = L.geoJson(, {
         style: function(feature) {
           return {
-            color: colors.Prism[4][feature.properties.objectid],
+            color: colors.OrYel[4][feature.properties.objectid],
             fillOpacity: .6
           }
         },

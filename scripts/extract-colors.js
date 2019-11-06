@@ -19,17 +19,17 @@ function extractColors() {
 
     // define output as an object called 'Vivid', made up of the object 'Vivid' from the parsed json cartocolors file
     const outputData = {
-      'Prism': data['Prism']
+      'OrYel': data['OrYel']
     };
 
-    console.log("prism scheme extracted from parsed data");
+    console.log("OrYel scheme extracted from parsed data");
 
     // write outputData containing just the vivid color object to json file
-    fs.writeFile(__dirname + '/../data/prism-colors.json', JSON.stringify(outputData), 'utf-8', function (err) {
+    fs.writeFile(__dirname + '/../data/OrYel-colors.json', JSON.stringify(outputData), 'utf-8', function (err) {
 
       if (err) throw err;
 
-      console.log('prism-colors.json written to data/ dir');
+      console.log('OrYel-colors.json written to data/ dir');
     });
   });
 }
