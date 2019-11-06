@@ -34,7 +34,7 @@ function filterFields(geojson) {
       for (var prop in feature.properties) {
         // if it's a match
         // choose comment field which details ADA compliance to show in popup
-        if (prop === 'OA_CMNT') {
+        if (prop === 'oa_cmnt'|| prop === 'evnt_lat' || prop === 'evnt_lon') {
           // create the prop/value
           tempProps[prop] = feature.properties[prop];
         }
