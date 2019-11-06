@@ -19,6 +19,7 @@
   "dependencies": {
     "mapshaper": "^0.4.140",
     "point-in-geopolygon": "^1.0.1",
-    "point-in-polygon": "^1.0.1"
+    "point-in-polygon": "^1.0.1",
+    "point-in-polygon-hao": "0.0.6"
   }
 }
