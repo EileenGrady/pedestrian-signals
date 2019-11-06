@@ -7,7 +7,7 @@ var mapshaper = require('mapshaper');
 fs.readFile(__dirname + "/../project-files/ped-signal-ada-compliance.geojson", "utf8", (err, geojson) => {
     if (err) throw err;
 
-    var commands = '-o precision=.0001 format=geojson';
+    var commands = '-filter remove-empty -o precision=.0001 format=geojson';
 
     mapshaper.applyCommands(commands, geojson, (err, geojson) => {
         if (err) throw err;
