@@ -111,8 +111,8 @@
       var serviceLayerGroup = L.geoJson(service, {
         style: function(feature) {
           return {
-            color: colors.Prism[2][feature.properties.council_di - 1],
-            fillOpacity: 1
+            color: colors.Prism[4][feature.properties.objectid],
+            fillOpacity: .6
           }
         },
         // onEachFeature(feature, layer) {
