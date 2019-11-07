@@ -7,6 +7,7 @@
 ## npm Packages
 1. [point-in-polygon-hao](https://www.npmjs.com/package/point-in-polygon-hao)
 2. [Leaflet Choropleth](https://www.npmjs.com/package/leaflet-choropleth)
+3. [Mapshaper](https://www.npmjs.com/package/mapshaper)
 
 ## The Process
 1. Use mapshaper terminal command to simplify council district geojson to reduce size.

@@ -71,7 +71,13 @@
 
 	.legend .max {
 	  float: right;
-	}
+    }
+    
+    .tooltip {
+      width: 200px;
+      font-size: 1em;
+      white-space: pre-wrap;
+    }
 
   </style>
 </head>
@@ -136,8 +142,6 @@
           },
       
         onEachFeature(feature, layer) {
-        //   // select each legend list item span and append the total count of signals
-        //   $('#district-' + feature.properties.council_di + ' span').append(feature.properties.count);
 
           //when mousing over a polygon layer
           layer.on('mouseover', function () {
@@ -145,10 +149,6 @@
             this.setStyle({
               fillOpacity: 1
             });
-
-        //     // select the cooresponding list item
-        //     // and add the highlight class to make bold
-        //     $('#district-' + feature.properties.council_di).addClass('highlight');
           })
 
           // when mousing out, reset opacity  and remove highlight class from legend item
@@ -156,7 +156,6 @@
             this.setStyle({
               fillOpacity: .6
             });
-        //     $('#district-' + feature.properties.council_di).removeClass('highlight');
           })
         }
       }).addTo(map);
@@ -187,43 +186,6 @@
         
         legend.addTo(map);
 
-    //   // select all the list items and on mouseover
-    //   $('.legend-item').on('mouseover', function() {
-    //     // extract the specific number from the specific item
-    //     // being moused over
-    //     const num = this.id.replace('district-', '');
-    //     // send this number as an argument to the highlightDistrict function
-    //     highlightDistrict(num);
-    //   });
-
-    //   function highlightDistrict(districtNum) {
-    //     // loop through the districts polygons
-    //     districtsLayerGroup.eachLayer(function(layer) {
-    //       // if the district id matches the one we're mousing over
-    //       if(layer.feature.properties.council_di === districtNum) {
-    //         // change the layer style
-    //         layer.setStyle({
-    //             fillOpacity: .8
-    //         }).bringToFront();
-    //       } else {
-    //         // return to original
-    //         layer.setStyle({
-    //             fillOpacity: .6
-    //         });
-    //       }
-    //     });
-    //   }
-
-    //   // select all the list items and on mouseover
-    //   $('.legend-item').on('click', function() {
-    //     // extract the specific number from the specific item
-    //     // being moused over
-    //     const num = this.id.replace('district-', '');
-    //     // send this number as an argument to the zoomToDistrict function
-    //     zoomToDistrict(num);
-    //   });
-
-
       // create new markerClusterGroup
       const markers = L.markerClusterGroup();
 
@@ -233,7 +195,10 @@
         const coords = feature.geometry.coordinates,
         marker = L.marker([coords[1], coords[0]]);
         // bind a tooltip to the marker
-        marker.bindTooltip("ADA Compliance: " + feature.properties.oa_cmnt);
+        let tooltip = feature.properties.oa_cmnt
+        marker.bindTooltip(tooltip, {
+            className: 'tooltip'
+        });
         // add the marker to the markerClusterGroup
         markers.addLayer(marker);
 
