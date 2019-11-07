@@ -19,16 +19,17 @@
     #title {
       position: absolute;
       margin: 10px;
-	  top: 20px;
-	  right: 230px;
-	  font-size: .75em;
-	  font-family: 'Oswald', Sans-Serif;
-	  letter-spacing: .04em;
-	  padding: 10px 15px;
-	  background: rgba(255, 255, 255, 0.8);
-	  border: 1px solid grey;
-	  border-radius: 3px;
-	  z-index: 1000;
+	    top: 10px;
+	    right: 10px;
+	    font-size: 1.5em;
+	    font-family: 'Oswald', Sans-Serif;
+	    letter-spacing: .04em;
+	    padding: 10px 15px;
+	    background: rgba(255, 255, 255, 0.8);
+      color: #555;
+	    border: 1px solid grey;
+	    border-radius: 3px;
+	    z-index: 1000;
 	}
 
     #map {
@@ -41,42 +42,55 @@
     .legend {
       position: absolute;
       bottom: 20px;
-	  color: #555;
-	  padding: 6px 8px;
-	  font: 12px Arial, Helvetica, sans-serif;
-	  font-weight: bold;
-	  background: rgba(255,255,255,0.8);
-	  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-	  border-radius: 5px;
+	    color: #555;
+	    padding: 6px 8px;
+	    font: 12px Arial, Helvetica, sans-serif;
+	    font-weight: bold;
+	    background: rgba(255,255,255,0.8);
+	    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	    border-radius: 5px;
       z-index: 1001;
 	}
+
+    .legend h3 {
+      font: 12px Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      color: #555;
+    }
 		
     .legend ul {
-	  list-style-type: none;
-	  padding: 0;
-	  margin: 0;
-	  clear: both;	
+	    list-style-type: none;
+	    padding: 0;
+	    margin: 0;
+	    clear: both;	
     }
 		
     .legend li {
-	  display: inline-block;
-	  width: 30px;
-	  height: 22px;
-	}
+	    display: inline-block;
+	    width: 30px;
+	    height: 22px;
+	  }
 
-	.legend .min {
-	  float: left;
-	  padding-bottom: 5px;
-	}
+	  .legend .min {
+	    float: left;
+	    padding-bottom: 5px;
+	  }
 
-	.legend .max {
-	  float: right;
+	  .legend .max {
+	    float: right;
     }
     
     .tooltip {
       width: 200px;
       font-size: 1em;
       white-space: pre-wrap;
+      color: #555;
+    }
+
+    .popup {
+      width: 200px;
+      font-size: 2em;
+      color: #555;
     }
 
   </style>
@@ -98,8 +112,8 @@
   <script>
     const options = {
       zoomSnap: 0.25,
-      center: [36.057843661018026, -86.59571740001658],
-      zoom: 9.75
+      center: [36.1780810540673, -86.57437972689253],
+      zoom: 10.5
     }
 
     const map = L.map('map', options);
@@ -138,10 +152,14 @@
           style: {
             color: '#808080',
             weight: 1,
-            fillOpacity: 0.6
+            fillOpacity: 0.7
           },
       
         onEachFeature(feature, layer) {
+
+          const props = feature.properties
+          const popup = "<p>Council District " + props.council_district + " has " + props.count + " pedestrian signals. </p>"
+          layer.bindPopup(popup);
 
           //when mousing over a polygon layer
           layer.on('mouseover', function () {
@@ -154,7 +172,7 @@
           // when mousing out, reset opacity  and remove highlight class from legend item
           layer.on('mouseout', function () {
             this.setStyle({
-              fillOpacity: .6
+              fillOpacity: .7
             });
           })
         }
@@ -167,11 +185,13 @@
       legend.onAdd = function (map) {
         const div = L.DomUtil.create('div', 'legend');
         const limits = districtLayerGroup.options.limits
-        const colors = districtLayerGroup.options.colors
+        const colors = districtLayerGroup.options.colors        
         const labels = []
 
         // Add min & max
-        div.innerHTML = '<div class="labels"><div class="min">' + limits[0] + '</div> \
+        div.innerHTLML = "<h3>Number of Pedestrian Signals per Council District</h3>";
+
+        div.innerHTML += '<div class="labels"><div class="min">' + limits[0] + '</div> \
 			<div class="max">' + limits[limits.length - 1] + '</div></div>'
 
         limits.forEach(function (limit, index) {
