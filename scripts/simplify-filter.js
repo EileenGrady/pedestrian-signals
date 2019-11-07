@@ -1,22 +1,22 @@
 "use strict"
 
-var fs = require('fs');
-var mapshaper = require('mapshaper');
+const fs = require('fs');
+const mapshaper = require('mapshaper');
 
 // read original ped signal geojson in
 fs.readFile(__dirname + "/../project-files/ped-signal-ada-compliance.geojson", "utf8", (err, geojson) => {
     if (err) throw err;
 
-    var commands = '-filter remove-empty -o precision=.0001 format=geojson';
+    const commands = '-filter remove-empty -o precision=.0001 format=geojson';
 
     mapshaper.applyCommands(commands, geojson, (err, geojson) => {
         if (err) throw err;
 
         // parse results so we can run filterFields function
-        var newGeoJson = JSON.parse(geojson)
+        const newGeoJson = JSON.parse(geojson)
 
         // run filterFields function
-        var outGeoJSON = filterFields(newGeoJson);
+        const outGeoJSON = filterFields(newGeoJson);
 
         // write new json to data directory
         fs.writeFile(__dirname + " /../data/ped-signals-filtered.json", JSON.stringify(outGeoJSON), "utf8", (err) => {
@@ -31,15 +31,15 @@ fs.readFile(__dirname + "/../project-files/ped-signal-ada-compliance.geojson", "
 // define filterFields function
 function filterFields(geojson) {
     // shorthand to our features
-    var features = geojson.features,
+    const features = geojson.features,
         newFeatures = []; // empty array for new features
   
     // loop through all the features
     features.forEach((feature) => {
       // on each loop, create an empty object
-      var tempProps = {};
+      const tempProps = {};
       // loop through each of the properties for that feature
-      for (var prop in feature.properties) {
+      for (const prop in feature.properties) {
         // if it's a match
         // choose comment field which details ADA compliance to show in popup
         if (prop === 'oa_cmnt'|| prop === 'evnt_lat' || prop === 'evnt_lon') {
