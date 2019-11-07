@@ -63,6 +63,7 @@
   <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="libs/Leaflet.markercluster/leaflet.markercluster.js"></script>
+  <script src="../dist/choropleth.js"></script>
 
   <script>
     const options = {
@@ -72,15 +73,15 @@
 
     const map = L.map('map', options);
 
-    L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+    L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/light_nolabels/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;<a href="https://carto.com/attribution">CARTO</a>'
     }).addTo(map);
 
     // use D3 fetch to request data with async requests
     // const serviceDistricts = d3.json('data/service-districts-simplify.json');
-    const councilDistricts = d3.json('data/council-districts.json');
-    const colorsData = d3.json('data/OrYel-colors.json');
+    const councilDistricts = d3.json('data/council-districts-counts.json');
+    const colorsData = d3.json('data/color-scheme.json');
     const signalData = d3.json('data/ped-signals-filtered.json');
 
     // use Promise to wait until data is all loaded
@@ -107,13 +108,22 @@
     //     legendList.append('<li class="legend-item" id="district-' + i + '"><a style="color:' + colors.Vivid[10][i -1] + '" href="#">District ' + i + ' (<span></span>)</a></li>');
     //   }
 
-      var districtLayerGroup = L.geoJson(, {
-        style: function(feature) {
-          return {
-            color: colors.OrYel[4][feature.properties.objectid],
-            fillOpacity: .6
-          }
-        },
+      var districtLayerGroup = L.choropleth(districts, {
+          valueProperty: 'count',
+          colors: [colors.TealGrn[5][0], colors.TealGrn[5][1], colors.TealGrn[5][2], colors.TealGrn[5][3], colors.TealGrn[5][4]],
+          steps: 5,
+          mode: 'q',
+          style: {
+            color: '#808080',
+            weight: 1,
+            fillOpacity: 0.8
+          },
+        // style: function(feature) {
+        //   return {
+        //     color: colors.OrYel[4][feature.properties.objectid],
+        //     fillOpacity: .6
+        //   }
+        // },
         // onEachFeature(feature, layer) {
         //   // select each legend list item span and append the total count of signals
         //   $('#district-' + feature.properties.council_di + ' span').append(feature.properties.count);
