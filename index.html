@@ -16,6 +16,21 @@
       padding: 0;
     }
 
+    #title {
+      position: absolute;
+      margin: 10px;
+	  top: 20px;
+	  right: 230px;
+	  font-size: .75em;
+	  font-family: 'Oswald', Sans-Serif;
+	  letter-spacing: .04em;
+	  padding: 10px 15px;
+	  background: rgba(255, 255, 255, 0.8);
+	  border: 1px solid grey;
+	  border-radius: 3px;
+	  z-index: 1000;
+	}
+
     #map {
       position: absolute;
       width: 100%;
@@ -23,39 +38,48 @@
       bottom: 0;
     }
 
-    #ui {
+    .legend {
       position: absolute;
-      z-index: 1000; /* place above map */
-      bottom: 18px;
-      right: 18px;
-      padding: 6px 12px;
-      background: rgba(256,256,256,.9);
+      bottom: 20px;
+	  color: #555;
+	  padding: 6px 8px;
+	  font: 12px Arial, Helvetica, sans-serif;
+	  font-weight: bold;
+	  background: rgba(255,255,255,0.8);
+	  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	  border-radius: 5px;
+      z-index: 1001;
+	}
+		
+    .legend ul {
+	  list-style-type: none;
+	  padding: 0;
+	  margin: 0;
+	  clear: both;	
     }
+		
+    .legend li {
+	  display: inline-block;
+	  width: 30px;
+	  height: 22px;
+	}
 
-    #ui ul {
-      list-style-type: none;
-      padding: 0;
-    }
+	.legend .min {
+	  float: left;
+	  padding-bottom: 5px;
+	}
 
-    #ui li {
-      margin-bottom: 6px;
-    }
+	.legend .max {
+	  float: right;
+	}
 
-    #ui a {
-      text-decoration: none;
-    }
-
-    #ui a:hover {
-      font-weight: bold;
-    }
-
-    .highlight {
-      font-weight: bold;
-    }
   </style>
 </head>
 
 <body>
+
+  <div id="title">Pedestrian Signals: ADA Compliance in Nashville, TN</div>
+  <div id="legend"></div>
 
   <div id="map"></div>
 
@@ -67,8 +91,9 @@
 
   <script>
     const options = {
-      center: [36.1627, -86.7816],
-      zoom: 10
+      zoomSnap: 0.25,
+      center: [36.057843661018026, -86.59571740001658],
+      zoom: 9.75
     }
 
     const map = L.map('map', options);
@@ -99,16 +124,7 @@
       const colors = data[1];
       const signals = data[2];
 
-    //   // store a reference to the HTML list
-    //   const legendList = $('#legend-list');
-
-    //   // loop through the features and create a new
-    //   // list item for each feature in the legend
-    //   for(let i = 1; i <= districts.features.length; i++) {
-    //     legendList.append('<li class="legend-item" id="district-' + i + '"><a style="color:' + colors.Vivid[10][i -1] + '" href="#">District ' + i + ' (<span></span>)</a></li>');
-    //   }
-
-      var districtLayerGroup = L.choropleth(districts, {
+      const districtLayerGroup = L.choropleth(districts, {
           valueProperty: 'count',
           colors: [colors.TealGrn[5][0], colors.TealGrn[5][1], colors.TealGrn[5][2], colors.TealGrn[5][3], colors.TealGrn[5][4]],
           steps: 5,
@@ -116,45 +132,66 @@
           style: {
             color: '#808080',
             weight: 1,
-            fillOpacity: 0.8
+            fillOpacity: 0.6
           },
-        // style: function(feature) {
-        //   return {
-        //     color: colors.OrYel[4][feature.properties.objectid],
-        //     fillOpacity: .6
-        //   }
-        // },
-        // onEachFeature(feature, layer) {
+      
+        onEachFeature(feature, layer) {
         //   // select each legend list item span and append the total count of signals
         //   $('#district-' + feature.properties.council_di + ' span').append(feature.properties.count);
 
-        //   //when mousing over a polygon layer
-        //   layer.on('mouseover', function () {
-        //     // provide a visual affordance
-        //     this.setStyle({
-        //       fillOpacity: .8
-        //     });
+          //when mousing over a polygon layer
+          layer.on('mouseover', function () {
+            // provide a visual affordance
+            this.setStyle({
+              fillOpacity: 1
+            });
 
         //     // select the cooresponding list item
         //     // and add the highlight class to make bold
         //     $('#district-' + feature.properties.council_di).addClass('highlight');
-        //   })
+          })
 
-        //   // when mousing out, reset opacity  and remove highlight class from legend item
-        //   layer.on('mouseout', function () {
-        //     this.setStyle({
-        //       fillOpacity: .6
-        //     });
+          // when mousing out, reset opacity  and remove highlight class from legend item
+          layer.on('mouseout', function () {
+            this.setStyle({
+              fillOpacity: .6
+            });
         //     $('#district-' + feature.properties.council_di).removeClass('highlight');
-        //   })
-        // }
+          })
+        }
       }).addTo(map);
+    
+      const legend = L.control({
+          position: 'bottomright'
+      });
+
+      legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'legend');
+        const limits = districtLayerGroup.options.limits
+        const colors = districtLayerGroup.options.colors
+        const labels = []
+
+        // Add min & max
+        div.innerHTML = '<div class="labels"><div class="min">' + limits[0] + '</div> \
+			<div class="max">' + limits[limits.length - 1] + '</div></div>'
+
+        limits.forEach(function (limit, index) {
+            labels.push('<li style="background-color: ' + colors[index] + '"></li>')
+        })
+
+        div.innerHTML += '<ul>' + labels.join('') + '</ul>'
+        
+        return div
+        
+        }
+        
+        legend.addTo(map);
 
     //   // select all the list items and on mouseover
     //   $('.legend-item').on('mouseover', function() {
     //     // extract the specific number from the specific item
     //     // being moused over
-    //     var num = this.id.replace('district-', '');
+    //     const num = this.id.replace('district-', '');
     //     // send this number as an argument to the highlightDistrict function
     //     highlightDistrict(num);
     //   });
@@ -181,28 +218,19 @@
     //   $('.legend-item').on('click', function() {
     //     // extract the specific number from the specific item
     //     // being moused over
-    //     var num = this.id.replace('district-', '');
+    //     const num = this.id.replace('district-', '');
     //     // send this number as an argument to the zoomToDistrict function
     //     zoomToDistrict(num);
     //   });
 
-    //   function zoomToDistrict(districtNum) {
-    //     // loop through the districts polygons
-    //     districtsLayerGroup.eachLayer(function(layer) {
-    //       // if the district id matches the one we're mousing over
-    //       if(layer.feature.properties.council_di === districtNum) {
-    //         map.setView(layer.getBounds().getCenter(), 11);
-    //       }
-    //     });
-    //   }
 
       // create new markerClusterGroup
-      var markers = L.markerClusterGroup();
+      const markers = L.markerClusterGroup();
 
       // loop through all our signals features
       signals.features.forEach(function(feature) {
         // create a new Leaflet marker for each
-        var coords = feature.geometry.coordinates,
+        const coords = feature.geometry.coordinates,
         marker = L.marker([coords[1], coords[0]]);
         // bind a tooltip to the marker
         marker.bindTooltip("ADA Compliance: " + feature.properties.oa_cmnt);
