@@ -19,43 +19,43 @@
     #title {
       position: absolute;
       margin: 10px;
-	    top: 10px;
-	    right: 10px;
-	    font-size: 1.5em;
-	    font-family: 'Oswald', Sans-Serif;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      font-family: 'Oswald', Sans-Serif;
       font-weight: bold;
-	    letter-spacing: .04em;
-	    padding: 10px 15px;
-	    background: rgba(255, 255, 255, 0.8);
+      letter-spacing: .04em;
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.8);
       color: #555;
-	    border: 1px solid grey;
-	    border-radius: 5px;
-	    z-index: 1000;
+      border: 1px solid grey;
+      border-radius: 5px;
+      z-index: 1000;
       width: 660px;
-	  }
+    }
 
     #about {
       position: absolute;
       margin: 10px;
-	    top: 70px;
-	    right: 10px;
-	    font-size: .75em;
-	    font-family: 'Oswald', Sans-Serif;
-	    letter-spacing: .04em;
-	    padding: 10px 15px;
-	    background: rgba(255, 255, 255, 0.8);
+      top: 70px;
+      right: 10px;
+      font-size: .75em;
+      font-family: 'Oswald', Sans-Serif;
+      letter-spacing: .04em;
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.8);
       color: #555;
-	    border: 1px solid grey;
-	    border-radius: 5px;
-	    z-index: 1000;
+      border: 1px solid grey;
+      border-radius: 5px;
+      z-index: 1000;
       width: 290px;
     }
 
     p {
       margin: 10px 0px 10px 0px;
-	    font-size: 1em;
-	    font-family: 'Oswald', Sans-Serif;
-	    letter-spacing: .04em;
+      font-size: 1em;
+      font-family: 'Oswald', Sans-Serif;
+      letter-spacing: .04em;
       color: #555;
     }
 
@@ -70,17 +70,17 @@
       position: absolute;
       bottom: 20px;
       right: 20px;
-	    color: #555;
-	    padding: 6px 8px 6px 8px;
-	    font: 14px 'Oswald', Sans-Serif;
-	    font-weight: bold;
-	    background: rgba(255, 255, 255, 0.8);
+      color: #555;
+      padding: 6px 8px 6px 8px;
+      font: 14px 'Oswald', Sans-Serif;
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.8);
       border: 1px solid grey;
-	    border-radius: 5px;
+      border-radius: 5px;
       z-index: 1001;
       width: 290px;
 
-	}
+    }
 
     .legend h3 {
       font: 14px 'Oswald', Sans-Serif;
@@ -89,12 +89,12 @@
     }
 
     .legend li {
-	    display: inline-block;
-	    width: 50px;
-	    height: 44px;
+      display: inline-block;
+      width: 50px;
+      height: 44px;
       padding-inline-start: 0px;
       opacity: 0.7;
-	  }
+    }
 
     .legend li:hover {
       opacity: 1;
@@ -109,17 +109,17 @@
       opacity: 1;
     }
 
-	  .legend .min {
-	    float: left;
-	    padding-bottom: 5px;
+    .legend .min {
+      float: left;
+      padding-bottom: 5px;
       padding-right: 5px;
-	  }
+    }
 
-	  .legend .max {
-	    float: right;
+    .legend .max {
+      float: right;
       padding-bottom: 5px;
     }
-    
+
     .tooltip {
       width: 200px;
       font-size: 1em;
@@ -140,7 +140,6 @@
     a:hover {
       color: #4cc8a3;
     }
-
   </style>
 </head>
 
@@ -148,14 +147,17 @@
 
   <div id="title">Pedestrian Signals: ADA Compliance in Nashville, TN</div>
   <div id="about">
-    <p>This map shows city council districts overlaid with aggregated locations of 
-    pedestrian signal lights in Nashville, TN. Dive into the clusters on the map to see individual 
-    signals and their ADA compliance status.
+    <p>This map shows city council districts overlaid with aggregated locations of
+      pedestrian signal lights in Nashville, TN. Dive into the clusters on the map to see individual
+      signals and their ADA compliance status.
     </p>
     <p>
       Data downloaded from <a href="https://data.nashville.gov/" a target="_blank">Data.Nashville.gov</a>:
-       <li><a href="https://data.nashville.gov/General-Government/Council-District-Outlines-GIS-/iw7r-m8qr" a target="_blank">City Council Districts</a></li>
-       <li><a href="https://data.nashville.gov/Transportation/Pedestrian-Signal-Inventory-and-ADA-Self-Assessmen/6xet-f7u7" a target="_blank">Pedestrian Signal Inventory</a></li>
+      <li><a href="https://data.nashville.gov/General-Government/Council-District-Outlines-GIS-/iw7r-m8qr" a
+          target="_blank">City Council Districts</a></li>
+      <li><a
+          href="https://data.nashville.gov/Transportation/Pedestrian-Signal-Inventory-and-ADA-Self-Assessmen/6xet-f7u7"
+          a target="_blank">Pedestrian Signal Inventory</a></li>
     </p>
     <p>
       Map authored by <a href="https://eileengrady.github.io/" a target="_blank">Eileen Grady</a>
@@ -169,7 +171,7 @@
   <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="libs/Leaflet.markercluster/leaflet.markercluster.js"></script>
-  <script src="../dist/choropleth.js"></script>
+  <script src="dist/choropleth.js"></script>
 
   <script>
     const options = {
@@ -202,22 +204,24 @@
       const signals = data[2];
 
       const districtLayerGroup = L.choropleth(districts, {
-          valueProperty: 'count',
-          colors: [colors.TealGrn[5][0], colors.TealGrn[5][1], colors.TealGrn[5][2], colors.TealGrn[5][3], colors.TealGrn[5][4]],
-          steps: 5,
-          mode: 'q',
-          style: {
-            color: '#808080',
-            weight: 1,
-            fillOpacity: 0.7
-          },
-      
+        valueProperty: 'count',
+        colors: [colors.TealGrn[5][0], colors.TealGrn[5][1], colors.TealGrn[5][2], colors.TealGrn[5][3], colors
+          .TealGrn[5][4]
+        ],
+        steps: 5,
+        mode: 'q',
+        style: {
+          color: '#808080',
+          weight: 1,
+          fillOpacity: 0.7
+        },
+
         onEachFeature(feature, layer) {
 
           const props = feature.properties
-          const popup = "<p>Council District " + props.council_district + " has " 
-                        + props.count + " pedestrian signals. </p>"
-          
+          const popup = "<p>Council District " + props.council_district + " has " +
+            props.count + " pedestrian signals. </p>"
+
           layer.bindPopup(popup);
 
           //when mousing over a polygon layer
@@ -230,11 +234,14 @@
             // define color as the fillColor of the polygon being mousedover
             color = this.options.fillColor
             // select the legend entry that matches the polygon, and try to increase opacity to 1
-            $('#color-' + color).css({"opacity":"1", "margin":"1.5px"})
+            $('#color-' + color).css({
+              "opacity": "1",
+              "margin": "1.5px"
+            })
             // verify that the correct div element is being selected
             $('#color-' + color).each(console.log(color))
 
-            });
+          });
 
           // when mousing out, reset opacity
           layer.on('mouseout', function () {
@@ -250,15 +257,15 @@
           });
         }
       }).addTo(map);
-    
+
       const legend = L.control({
-          position: 'bottomright'
+        position: 'bottomright'
       });
 
       legend.onAdd = function (map) {
         const div = L.DomUtil.create('div', 'legend');
         const limits = districtLayerGroup.options.limits
-        const colors = districtLayerGroup.options.colors  
+        const colors = districtLayerGroup.options.colors
         const labels = []
 
         // add legend title on two lines
@@ -268,16 +275,17 @@
 			  <div class="max">' + limits[limits.length - 1] + '</div></div>'
 
         limits.forEach(function (limit, index) {
-            labels.push('<li class = "legend-item" id=color-' + colors[index] + ' style="background-color: ' + colors[index] + '"></li>')
+          labels.push('<li class = "legend-item" id=color-' + colors[index] + ' style="background-color: ' +
+            colors[index] + '"></li>')
         })
         div.innerHTML += '<ul>' + labels.join('') + '</ul>'
         return div
       }
-        
+
       legend.addTo(map);
 
       // select all the list items and on mouseover
-      $('.legend-item').on('mouseover', function() {
+      $('.legend-item').on('mouseover', function () {
         // extract the background color being moused over
         const color = this.id.replace('color-', '');
         // send this color as an argument to the highlightDistricts function
@@ -286,27 +294,27 @@
 
       function highlightDistricts(color) {
         // loop through the districts polygons
-        districtLayerGroup.eachLayer(function(layer, feature) {
+        districtLayerGroup.eachLayer(function (layer, feature) {
           // if the polygon fill color matches the one we're mousing over
-          if(layer.options.fillColor === color) {
+          if (layer.options.fillColor === color) {
             // change the layer style
             layer.setStyle({
-                fillOpacity: 1,
-                weight: 1.75
+              fillOpacity: 1,
+              weight: 1.75
             }).bringToFront();
           } else {
             // return to original
             layer.setStyle({
-                fillOpacity: 0.7,
-                weight: 1
+              fillOpacity: 0.7,
+              weight: 1
             });
           }
         });
       }
 
       // return district polygon layer to normal after mouseout off legend
-      $('.legend-item').on('mouseout', function() {
-        districtLayerGroup.eachLayer(function(layer, feature) {
+      $('.legend-item').on('mouseout', function () {
+        districtLayerGroup.eachLayer(function (layer, feature) {
           layer.setStyle({
             fillOpacity: 0.7,
             weight: 1
@@ -318,15 +326,15 @@
       const markers = L.markerClusterGroup();
 
       // loop through all our signals features
-      signals.features.forEach(function(feature) {
+      signals.features.forEach(function (feature) {
         // create a new Leaflet marker for each
         const coords = feature.geometry.coordinates,
-        marker = L.marker([coords[1], coords[0]]);
+          marker = L.marker([coords[1], coords[0]]);
         // bind a tooltip to the marker
         let tooltip = feature.properties.oa_cmnt
         marker.bindTooltip(tooltip, {
-            className: 'tooltip',
-            sticky: true
+          className: 'tooltip',
+          sticky: true
         });
         // add the marker to the markerClusterGroup
         markers.addLayer(marker);
